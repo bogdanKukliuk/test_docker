@@ -1,2 +1,19 @@
-# gcp
 steps:
+# Build Back the container image
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build Back image'
+  args: ['build', '-t', 'gcr.io/hybrid-bastion-308816/taiga-back', './taiga-back']
+# Push the container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push Back image'
+  args: ['push', 'gcr.io/hybrid-bastion-308816/taiga-back']
+
+# Update k8s pods Front 
+#- name: 'gcr.io/cloud-builders/gke-deploy'
+#  id: 'Apply Front deploy'
+#  args:
+#  - 'apply'
+#  - '--filename=./k8sfiles/chess-front.yaml'
+#  - '--namespace=default'
+#  - '--cluster=cluster-1'
+#  - '--location=us-central1-c'
