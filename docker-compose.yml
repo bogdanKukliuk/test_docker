@@ -26,6 +26,7 @@ x-environment:
   RABBITMQ_PASS: taiga
   # Telemetry settings
   ENABLE_TELEMETRY: "True"
+  PUBLIC_REGISTER_ENABLED: "True"
 
 x-volumes:
   &default-back-volumes
@@ -47,8 +48,10 @@ services:
       - taiga
 
   taiga-back:
-    image: taigaio/taiga-back:latest
+    image: test-back:2.0
     environment: *default-back-environment
+    ports:
+      - "8000:8000"
     volumes: *default-back-volumes
     networks:
       - taiga
@@ -58,9 +61,11 @@ services:
       - taiga-async-rabbitmq
 
   taiga-async:
-    image: taigaio/taiga-back:latest
-    entrypoint: ["/taiga-back/docker/async_entrypoint.sh"]
+    image: test-back:2.0
+    entrypoint: ["/taiga-back/async_entrypoint.sh"]
     environment: *default-back-environment
+    ports:
+      - "8001:8001"
     volumes: *default-back-volumes
     networks:
       - taiga
@@ -84,6 +89,7 @@ services:
   taiga-front:
     image: taigaio/taiga-front:latest
     environment:
+      PUBLIC_REGISTER_ENABLED: "True"
       TAIGA_URL: "http://localhost:9000"
       TAIGA_WEBSOCKETS_URL: "ws://localhost:9000"
     networks:
@@ -92,11 +98,13 @@ services:
     #   - ./conf.json:/usr/share/nginx/html/conf.json
 
   taiga-events:
-    image: taigaio/taiga-events:latest
+    image: test-events:2.0
     environment:
       RABBITMQ_USER: taiga
       RABBITMQ_PASS: taiga
       TAIGA_SECRET_KEY: "taiga-back-secret-key"
+    ports:
+      - "8888:8888"
     networks:
       - taiga
     depends_on:
@@ -115,10 +123,12 @@ services:
       - taiga
 
   taiga-protected:
-    image: taigaio/taiga-protected:latest
+    image: test-protected:1.0
     environment:
       MAX_AGE: 360
       SECRET_KEY: "taiga-back-secret-key"
+    ports:
+      - "8003:8003"
     networks:
       - taiga
 
