@@ -18,7 +18,7 @@ steps:
 
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Build Protected image'
-  args: ['build', '-t', 'gcr.io/hybrid-bastion-308816/taiga-protected', './taiga-pretected']
+  args: ['build', '-t', 'gcr.io/hybrid-bastion-308816/taiga-protected', './taiga-protected']
 # Push Protected container image to Container Registry
 - name: 'gcr.io/cloud-builders/docker'
   id: 'Push Protected image'
