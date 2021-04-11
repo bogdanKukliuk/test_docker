@@ -37,8 +37,6 @@ spec:
               value: taiga
             - name: POSTGRES_USER
               value: taiga
-            - name: PUBLIC_REGISTER_ENABLED
-              value: "True"
             - name: RABBITMQ_PASS
               value: taiga
             - name: RABBITMQ_USER
@@ -46,13 +44,11 @@ spec:
             - name: TAIGA_SECRET_KEY
               value: taiga-back-secret-key
             - name: TAIGA_SITES_DOMAIN
-              value: localhost:9000
+              value: localhost:9009
             - name: TAIGA_SITES_SCHEME
               value: http
-          image: gcr.io/hybrid-bastion-308816/taiga-back
+          image: taigaio/taiga-back:latest
           name: taiga-back
-          ports:
-            - containerPort: 8000
           resources: {}
           volumeMounts:
             - mountPath: /taiga-back/static

@@ -10,8 +10,8 @@ metadata:
   name: taiga-gateway
 spec:
   ports:
-    - name: "9000"
-      port: 9000
+    - name: "9009"
+      port: 9009
       targetPort: 80
   selector:
     io.kompose.service: taiga-gateway

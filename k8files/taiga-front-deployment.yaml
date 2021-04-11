@@ -26,12 +26,10 @@ spec:
     spec:
       containers:
         - env:
-            - name: PUBLIC_REGISTER_ENABLED
-              value: "True"
             - name: TAIGA_URL
-              value: http://localhost:9000
+              value: http://localhost:9009
             - name: TAIGA_WEBSOCKETS_URL
-              value: ws://localhost:9000
+              value: ws://localhost:9009
           image: taigaio/taiga-front:latest
           name: taiga-front
           resources: {}

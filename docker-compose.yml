@@ -43,6 +43,8 @@ services:
       POSTGRES_DB: taiga
       POSTGRES_USER: taiga
       POSTGRES_PASSWORD: taiga
+    ports:
+      - "5432:5432"
     volumes:
       - taiga-db-data:/var/lib/postgresql/data
     networks:
@@ -82,6 +84,8 @@ services:
       RABBITMQ_DEFAULT_USER: taiga
       RABBITMQ_DEFAULT_PASS: taiga
       RABBITMQ_DEFAULT_VHOST: taiga
+    ports:
+      - "5672:5672"
     volumes:
       - taiga-async-rabbitmq-data:/var/lib/rabbitmq
     networks:
@@ -93,6 +97,8 @@ services:
       PUBLIC_REGISTER_ENABLED: "True"
       TAIGA_URL: "http://localhost:9000"
       TAIGA_WEBSOCKETS_URL: "ws://localhost:9000"
+    ports:
+      - "9000:9000"
     networks:
       - taiga
     # volumes:
