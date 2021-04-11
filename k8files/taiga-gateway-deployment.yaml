@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: taiga-gateway
+  name: taiga-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: taiga-gateway
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/taiga: "true"
+        io.kompose.service: taiga-gateway
+    spec:
+      containers:
+        - image: nginx:1.19-alpine
+          name: taiga-gateway
+          ports:
+            - containerPort: 80
+          resources: {}
+          volumeMounts:
+            - mountPath: /etc/nginx/conf.d/default.conf
+              name: taiga-gateway-claim0
+            - mountPath: /taiga/static
+              name: taiga-static-data
+            - mountPath: /taiga/media
+              name: taiga-media-data
+      restartPolicy: Always
+      volumes:
+        - name: taiga-gateway-claim0
+          persistentVolumeClaim:
+            claimName: taiga-gateway-claim0
+        - name: taiga-static-data
+          persistentVolumeClaim:
+            claimName: taiga-static-data
+        - name: taiga-media-data
+          persistentVolumeClaim:
+            claimName: taiga-media-data
+status: {}

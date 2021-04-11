@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: taiga-events-rabbitmq
+  name: taiga-events-rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: taiga-events-rabbitmq
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/taiga: "true"
+        io.kompose.service: taiga-events-rabbitmq
+    spec:
+      containers:
+        - env:
+            - name: RABBITMQ_DEFAULT_PASS
+              value: taiga
+            - name: RABBITMQ_DEFAULT_USER
+              value: taiga
+            - name: RABBITMQ_DEFAULT_VHOST
+              value: taiga
+            - name: RABBITMQ_ERLANG_COOKIE
+              value: secret-erlang-cookie
+          image: rabbitmq:3-management-alpine
+          name: taiga-events-rabbitmq
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/rabbitmq
+              name: taiga-events-rabbitmq-data
+      restartPolicy: Always
+      volumes:
+        - name: taiga-events-rabbitmq-data
+          persistentVolumeClaim:
+            claimName: taiga-events-rabbitmq-data
+status: {}
