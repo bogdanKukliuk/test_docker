@@ -49,7 +49,7 @@ services:
       - taiga
 
   taiga-back:
-    image: test-back:2.0
+    image: gcr.io/hybrid-bastion-308816/taiga-back
     environment: *default-back-environment
     ports:
       - "8000:8000"
@@ -62,7 +62,7 @@ services:
       - taiga-async-rabbitmq
 
   taiga-async:
-    image: test-back:2.0
+    image: gcr.io/hybrid-bastion-308816/taiga-back
     entrypoint: ["/taiga-back/async_entrypoint.sh"]
     environment: *default-back-environment
     ports:
@@ -99,7 +99,7 @@ services:
     #   - ./conf.json:/usr/share/nginx/html/conf.json
 
   taiga-events:
-    image: test-events:2.0
+    image: gcr.io/hybrid-bastion-308816/taiga-events
     environment:
       RABBITMQ_USER: taiga
       RABBITMQ_PASS: taiga
@@ -124,7 +124,7 @@ services:
       - taiga
 
   taiga-protected:
-    image: test-protected:1.0
+    image: gcr.io/hybrid-bastion-308816/taiga-protected
     environment:
       MAX_AGE: 360
       SECRET_KEY: "taiga-back-secret-key"
