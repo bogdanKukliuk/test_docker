@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - yum install python3 -y
+  pre_build:
+    commands:
+      - ls
+      - python3 -m venv .venv --prompt taiga-back
+  build:
+    commands:
+      - source .venv/bin/activate
+      - pip install --upgrade pip wheel
+      - pip install -r requirements.txt
+      - pip install git+https://github.com/taigaio/taiga-contrib-protected.git@6.0.0#egg=taiga-contrib-protected
+      - git clone https://github.com/zdolbuniv/.ebextensions.git
+      - ls settings
+artifacts:
+  files:
+    - '**/*'
